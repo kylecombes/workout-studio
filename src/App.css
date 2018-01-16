@@ -1,0 +1,40 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css";
+
+.current-exercise-title {
+    font-size: 6em;
+    text-align: center;
+    margin: 1em;
+}
+
+.clock-container {
+    display: flex;
+}
+
+.clock {
+    text-align: center;
+    font-size: 10em;
+    background-color: black;
+    padding: 0.3em 1em;
+    color: white;
+    margin: 0 auto;
+}
+
+.next-exercise {
+    font-size: 4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0.3em;
+}
+
+
+.background {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -10;
+}
