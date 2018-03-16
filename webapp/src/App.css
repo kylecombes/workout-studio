@@ -1,5 +1,9 @@
 @import "https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css";
 
+* {
+    transition: all 0.5s ease;
+}
+
 .current-exercise-title {
     font-size: 6em;
     text-align: center;
@@ -7,6 +11,7 @@
 }
 
 .clock-container {
+    display: -ms-flexbox;
     display: flex;
 }
 
@@ -37,4 +42,15 @@
     right: 0;
     bottom: 0;
     z-index: -10;
+}
+
+.workout-list-item {
+    padding: 1em;
+    border: 1px solid #dedede;
+    background-color: #f8f8f8;
+}
+
+.workout-list-item:hover {
+    background-color: #ddd;
+    cursor: pointer;
 }

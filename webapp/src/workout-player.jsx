@@ -14,21 +14,7 @@ export default class WorkoutPlayer extends React.Component {
             currentExerciseReps: 1,
             resting: false,
             timerTicking: true,
-            workout: {
-                exerciseSets: [
-                    { // Set 1
-                        exercises: [
-                            { name: 'Lunge jumps', reps: 1 },
-                            { name: 'TBEs', reps: 2 },
-                        ],
-                        defaultExerciseReps: 1,
-                        reps: 1,
-                    },
-                ],
-                defaultDuration: 8,
-                defaultRest: 3,
-                defaultSetFinalRest: 10,
-            },
+            workout: props.info,
             workoutCompleted: false,
         };
 
@@ -58,6 +44,7 @@ export default class WorkoutPlayer extends React.Component {
         }
         if (!this.state.timerTicking) {
             clearInterval(this.timer); // Stop the timer
+            this.props.onFinish();
         }
     };
 
@@ -74,27 +61,27 @@ export default class WorkoutPlayer extends React.Component {
 
         const lastExerciseOfSet = exerciseIndex === sets[setIndex].exercises.length - 1;
 
-        let restDuration = 0;
+        let rest = 0;
 
         // Check if we need to rest
         if (!currentlyResting) {
             // Not currently resting (which means we're in an exercise), so the next stage is a rest
-            const lastRepOfExercise = exerciseRepsCompleted === exerciseReps;
+            const lastRepOfExercise = exerciseRepsCompleted === exerciseReps - 1;
             // Determine rest duration
-            restDuration = sets[setIndex].exercises[exerciseIndex].restDuration || sets[setIndex].defaultRest || this.state.workout.defaultRest || 0;
+            rest = sets[setIndex].exercises[exerciseIndex].rest || sets[setIndex].defaultRest || this.state.workout.defaultRest || 0;
             // If we've finished an exercise set, we may want to use a longer rest
             if (lastExerciseOfSet && lastRepOfExercise) { // Finished exercise set
                 // Load the final rest (likely longer) for the set
-                restDuration = sets[setIndex].finalRest || this.state.workout.defaultSetFinalRest || restDuration;
+                rest = sets[setIndex].finalRest || this.state.workout.defaultSetFinalRest || rest;
             }
         }
 
-        if (restDuration > 0) { // We need to rest
+        if (rest > 0) { // We need to rest
             // Save the rest info as the next "exercise"
             currentlyResting = true;
             currentExercise.name = 'Rest';
-            currentExercise.timeRemaining = restDuration;
-            currentExercise.duration = restDuration;
+            currentExercise.timeRemaining = rest;
+            currentExercise.duration = rest;
         } else { // Otherwise, go to the next exercise
             // Check if we've finished all the reps of the current exercise
             ++exerciseRepsCompleted;
